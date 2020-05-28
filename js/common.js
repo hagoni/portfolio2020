@@ -1356,6 +1356,11 @@ window.Utils = {
 
 (function($) {
 	$(document).ready(function() {
-		new Policy();
+		(function() {
+			$('.btn_home').click(function(e) {
+			   TweenLite.to('html, body', 0.3, {scrollTop: 0});
+			   e.preventDefault();
+		   });
+	   }());
 	});
 }(jQuery));
