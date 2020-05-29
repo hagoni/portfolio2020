@@ -1362,5 +1362,73 @@ window.Utils = {
 			   e.preventDefault();
 		   });
 	   }());
+	   (function() {
+			if($('.chapters').length === 0) return false;
+
+			function setAnchorsOffset() {
+				var limit = doc.innerHeight() - win.innerHeight();
+				for(var i=0, j=0; i<length; i++) {
+					if($chapters.eq(i).length > 0) offsets[i] = $chapters.eq(i).offset().top - diff;
+					else offsets[i] = i > 0 ? offsets[i - 1] : 0;
+					if(offsets[i] > limit) {
+						offsets[i] = limit - length + j;
+						j++;
+					}
+					offsets[i] = Math.floor(offsets[i]);
+				}
+				offsets[length] = limit + 1;
+			}
+
+			function scrollHandler() {
+				var scrollTop = win.scrollTop();
+				if(scrollTop < offsets[0]) {
+					$anchors.parent('li').filter('.on').removeClass('on');
+					index = -1;
+					return false;
+				}
+				for(var i=0; i<length; i++) {
+					if((i !== index) && (scrollTop >= offsets[i] && scrollTop < offsets[i + 1])) {
+						$anchors.parent('li').filter('.on').removeClass('on');
+						$anchors.parent('li').eq(i).addClass('on');
+						index = i;
+						break;
+					}
+				}
+			}
+
+			function scrollAnim(e) {
+				TweenLite.to('html, body', 0.5, {scrollTop: offsets[$(this).parent('li').index()], ease: Expo.easeOut});
+				e.preventDefault();
+			}
+
+			var $chapters = $('.chapters'),
+				$anchors = $('.nav a');
+
+			var length = $anchors.length,
+				offsets = [],
+				index = 0,
+				diff = $('.nav').height(),
+				resizeTimer = null;
+
+			$anchors.click(scrollAnim);
+			win.scroll(scrollHandler);
+			win.resize(function() {
+				clearTimeout(resizeTimer);
+				resizeTimer = setTimeout(function() {
+					setAnchorsOffset();
+					scrollHandler();
+				}, 100);
+			});
+			win.on('hashchange load', function() {
+				// hashHandler();
+			});
+			win.on('load', function() {
+				setAnchorsOffset();
+				scrollHandler();
+			});
+
+			setAnchorsOffset();
+			scrollHandler();
+		}());
 	});
 }(jQuery));
