@@ -246,13 +246,13 @@ transform:translate(-50%,-50%);
 
 @media screen and (min-width:1260px){
 	.projects.layer{padding-bottom:50px}
-	.projects .pj_list{text-align:center}
+	.projects .pj_list{text-align:left}
 	.projects .pj_list > li{width:580px;margin-left:40px}
 	.projects .pj_list > li:nth-child(2n-1){margin-left:0}
 	.projects .pj_list .text_area{padding-top:15px;text-align:left}
 	.projects .pj_list .pj_title{margin-bottom:10px;font-size:1.5rem}
-	.projects .cont_list li{font-size:1rem}
+	.projects .cont_list li{font-size:0.875rem}
 	.projects a{display:inline-block;margin-top:5px}
-	.projects .btn_site{font-size:1rem}
-	.projects .btn_git{font-size:1rem}
+	.projects .btn_site{font-size:0.875rem}
+	.projects .btn_git{font-size:0.875rem}
 }
